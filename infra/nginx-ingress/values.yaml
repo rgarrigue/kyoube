@@ -199,7 +199,7 @@ controller:
     create: true
 
     ## The type of service to create for the Ingress controller.
-    type: LoadBalancer
+    type: "NodePort"
 
     ## The externalTrafficPolicy of the service. The value Local preserves the client source IP.
     externalTrafficPolicy: Local
@@ -235,7 +235,7 @@ controller:
       port: 80
 
       ## The custom NodePort for the HTTP port. Requires controller.service.type set to NodePort.
-      nodePort: ""
+      nodePort: "10080"
 
       ## The HTTP port on the POD where the Ingress controller service is running.
       targetPort: 80
