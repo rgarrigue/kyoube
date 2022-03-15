@@ -3,16 +3,18 @@ apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
   name: infrastructure
+  namespace: argocd
 spec:
   generators:
-  - list:
-      elements:
-      - name: argo-cd
-      - name: nginx-ingress
-      - name: cert-manager
+    - list:
+        elements:
+          - name: argo-cd
+          - name: nginx-ingress
+          - name: cert-manager
+          - name: external-dns
   template:
     metadata:
-      name: '{{ name }}'
+      name: "{{ name }}"
     spec:
       project: default
       source:
