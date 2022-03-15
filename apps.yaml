@@ -1,0 +1,23 @@
+# https://argo-cd.readthedocs.io/en/stable/user-guide/application-set/
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: infrastructure
+spec:
+  generators:
+  - list:
+      elements:
+      - name: argo-cd
+      - name: nginx-ingress
+      - name: cert-manager
+  template:
+    metadata:
+      name: '{{ name }}'
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/rgarrigue/kyoube.git
+        targetRevision: HEAD
+        path: "infrastructure/{{ name }}"
+      destination:
+        server: https://kubernetes.default.svc
