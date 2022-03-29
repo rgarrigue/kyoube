@@ -1,0 +1,8 @@
+namespace: "sealed-secrets"
+
+metrics:
+  serviceMonitor:
+    enabled: false
+  dashboards:
+    create: false
+    namespace: monitoring

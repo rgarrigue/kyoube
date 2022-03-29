@@ -6,7 +6,10 @@ Playing with arkade, kind, minikube, argocd...
 
 ```bash
 curl -sLS https://get.arkade.dev | sudo sh
-arkade get helm kind kubectl minikube
+for cli in argocd helm kind kubectl kubeseal minikube; do 
+  arkade get $cli
+  sudo mv ~/.arkade/bin/$cli /usr/local/bin/
+done
 ```
 
 KIND
@@ -40,20 +43,23 @@ echo $PASS
 ## Download chart localy
 
 ```bash
+# helm repo add istio https://istio-release.storage.googleapis.com/chartsupdate
 helm repo add argo https://argoproj.github.io/argo-helm
 helm repo add external-dns https://kubernetes-sigs.github.io/external-dns/
 helm repo add grafana https://grafana.github.io/helm-charts
-# helm repo add istio https://istio-release.storage.googleapis.com/chartsupdate
 helm repo add jetstack https://charts.jetstack.io
 helm repo add nats https://nats-io.github.io/k8s/helm/charts/
 helm repo add oauth2-proxy https://oauth2-proxy.github.io/manifests
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts      
+helm repo add sealed-secrets https://bitnami-labs.github.io/sealed-secrets
 
 helm repo update
 
-helm pull argo/argo-cd
-helm pull external-dns/external-dns
-helm pull jetstack/cert-manager
-# ...
+cd infrastructure
+
+for chart in argo/argo-cd external-dns/external-dns jetstack/cert-manager sealed-secrets/sealed-secrets; do
+  tar xf ${chart}*.tar.gz
+  rm ${chart}*.tar.gz
+done
 ```
 

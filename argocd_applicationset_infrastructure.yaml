@@ -19,6 +19,9 @@ spec:
             namespace: cert-manager
           - name: external-dns
             namespace: external-dns
+          - name: sealed-secrets
+            namespace: sealed-secrets
+
   template:
     metadata:
       name: "{{ name }}"
