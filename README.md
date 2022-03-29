@@ -40,6 +40,12 @@ PASS=$(kubectl get secret argocd-initial-admin-secret \
 echo $PASS
 ```
 
+Wait until it's ready
+
+```
+kubectl apply -f argocd_applicationset_infrastructure.yaml
+```
+
 ## Download chart localy
 
 ```bash

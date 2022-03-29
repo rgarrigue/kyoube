@@ -45,11 +45,13 @@ server:
   #   additionalHosts: []
   #   # -- Certificate manager secret name
   #   secretName: argocd-server-tls
-  # metrics:
-  #   enabled: false
+  metrics:
+    enabled: false
   #   serviceMonitor:
   #     enabled: false
   # ingress:
   #   enabled: false
   #   hosts: []
   #   tls: []
+  config:
+    url: https://localhost:8443
