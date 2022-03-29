@@ -9,17 +9,49 @@ spec:
     - list:
         elements:
           - name: argo-cd
+            namespace: argocd
           - name: nginx-ingress
+            namespace: nginx-ingress
           - name: cert-manager
+            namespace: cert-manager
           - name: external-dns
+            namespace: external-dns
   template:
     metadata:
       name: "{{ name }}"
+      namespace: "{{ namespace }}"
     spec:
       project: default
       source:
         repoURL: https://github.com/rgarrigue/kyoube.git
         targetRevision: HEAD
         path: "infrastructure/{{ name }}"
+        helm:
+          version: v3
+          valueFiles:
+            - values.yaml
+            - values-override.yaml
       destination:
         server: https://kubernetes.default.svc
+        namespace: "{{ namespace }}"
+      syncPolicy:
+        automated:
+          selfHeal: true
+          prune: true
+        syncOptions:
+          - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: certificates
+  namespace: cert-manager
+spec:
+  destination:
+    namespace: cert-manager
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: certificates
+    repoURL: https://github.com/rgarrigue/kyoube.git
+    targetRevision: HEAD
